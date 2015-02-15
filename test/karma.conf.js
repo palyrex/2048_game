@@ -20,9 +20,13 @@ module.exports = function(config) {
     files: [
       // bower:js
       // endbower
+      'bower_components/angular/angular.js',
+      'bower_components/angular-mocks/angular-mocks.js',
+      'app/scripts/**/*.js',
       'app/scripts/**/*.js',
       'test/mock/**/*.js',
-      'test/spec/**/*.js'
+      'test/spec/**/*.js',
+      'test/unit/**/*.js'
     ],
 
     // list of files / patterns to exclude

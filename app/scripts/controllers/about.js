@@ -7,7 +7,7 @@
  * # AboutCtrl
  * Controller of the game2048App
  */
-angular.module('game2048App')
+angular.module('game2048')
   .controller('AboutCtrl', function ($scope) {
     $scope.awesomeThings = [
       'HTML5 Boilerplate',
