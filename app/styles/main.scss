@@ -1,90 +1,82 @@
-$icon-font-path: "../bower_components/bootstrap-sass-official/assets/fonts/bootstrap/";
-// bower:scss
-// endbower
+$width: 400px;          
+$tile-count: 4;       
+$tile-padding: 15px;   
+$tile-size: ($width - $tile-padding * ($tile-count + 1)) / $tile-count;
 
-.browsehappy {
-  margin: 0.2em 0;
-  background: #ccc;
-  color: #000;
-  padding: 0.2em 0;
-}
+#game {
+  position: relative;
+  width: $width;
+  height: $width;
 
-body {
-  padding: 0;
-}
+  .grid-container {
+    position: absolute;  
+    z-index: 1;           
+    margin: 0 auto;      
 
-/* Everything but the jumbotron gets side spacing for mobile first views */
-.header,
-.marketing,
-.footer {
-  padding-left: 15px;
-  padding-right: 15px;
-}
+    .grid-cell {
+      width: $tile-size;              
+      height: $tile-size;             
+      margin-bottom: $tile-padding;   
+      margin-right: $tile-padding;    
+    }
+  }
+  .tile-container {
+    position: absolute;
+    z-index: 2;
 
-/* Custom page header */
-.header {
-  border-bottom: 1px solid #e5e5e5;
-  margin-bottom: 10px;
-
-  /* Make the masthead heading the same height as the navigation */
-  h3 {
-    margin-top: 0;
-    margin-bottom: 0;
-    line-height: 40px;
-    padding-bottom: 19px;
+    .tile {
+      width: $tile-size;       
+      height: $tile-size;      
+    }
   }
 }
 
-/* Custom page footer */
-.footer {
-  padding-top: 19px;
-  color: #777;
-  border-top: 1px solid #e5e5e5;
-}
+.tile {
+  @for $x from 1 through $tile-count {
+    @for $y from 1 through $tile-count {
+      $zeroOffsetX: $x - 1;
+      $zeroOFfsetY: $y - 1;
+      $newX: ($tile-size) * ($zeroOffsetX) + ($tile-padding * $zeroOffsetX);
+      $newY: ($tile-size) * ($zeroOffsetY) + ($tile-padding * $zeroOffsetY);
 
-.container-narrow > hr {
-  margin: 30px 0;
-}
-
-/* Main marketing message and sign up button */
-.jumbotron {
-  text-align: center;
-  border-bottom: 1px solid #e5e5e5;
-
-  .btn {
-    font-size: 21px;
-    padding: 14px 24px;
+      &.position-#{$zeroOffsetX}-#{$zeroOffsetY} {
+        -webkit-transform: translate($newX, $newY);
+        transform: translate($newX, $newY);
+      }
+    }
   }
 }
 
-/* Supporting marketing content */
-.marketing {
-  margin: 40px 0;
+$colors:  #EEE4DA, // 2
+          #EAE0C8, // 4
+          #F59563, // 8
+          #3399ff, // 16
+          #ffa333, // 32
+          #cef030, // 64
+          #E8D8CE, // 128
+          #990303, // 256
+          #6BA5DE, // 512
+          #DCAD60, // 1024
+          #B60022; // 2048
 
-  p + h4 {
-    margin-top: 28px;
+@for $i from 1 through length($colors) {
+  &.tile-#{power(2, $i)} .tile-inner {
+    background: nth($colors, $i)
   }
 }
 
-/* Responsive: Portrait tablets and up */
-@media screen and (min-width: 768px) {
-  .container {
-    max-width: 730px;
+@function power ($x, $n) {
+  $ret: 1;
+
+  @if $n >= 0 {
+    @for $i from 1 through $n {
+      $ret: $ret * $x;
+    } 
+  } @else {
+    @for $i from $n to 0 {
+      $ret: $ret / $x;
+    }
   }
 
-  /* Remove the padding we set earlier */
-  .header,
-  .marketing,
-  .footer {
-    padding-left: 0;
-    padding-right: 0;
-  }
-  /* Space out the masthead */
-  .header {
-    margin-bottom: 30px;
-  }
-  /* Remove the bottom border on the jumbotron for visual effect */
-  .jumbotron {
-    border-bottom: 0;
-  }
+  @return $ret;
 }
